@@ -1,0 +1,35 @@
+version: '3'
+services:
+  app:
+    container_name: nestjs_app
+    restart: always
+    build: .
+    hostname: "postgres"
+    ports:
+      - '3000:3000'
+    networks:
+      - nestjs-network
+    depends_on:
+      - postgres
+    volumes:
+      - .:/app
+    command: sh -c 'npm i && npm run start'
+
+  postgres:
+    image: postgres
+    container_name: postgres
+    restart: unless-stopped
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+    ports:
+      - '5432:5432'
+    networks:
+      - nestjs-network
+
+networks:
+  nestjs-network:
+    driver: bridge
+
+volumes:
+  db-data:

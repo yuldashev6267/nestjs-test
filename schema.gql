@@ -1,0 +1,86 @@
+# ------------------------------------------------------
+# THIS FILE WAS AUTOMATICALLY GENERATED (DO NOT MODIFY)
+# ------------------------------------------------------
+
+type User {
+  id: Int!
+  createdAt: DateTime!
+  updatedAt: DateTime!
+  username: String!
+}
+
+"""
+A date-time string at UTC, such as 2019-12-03T09:54:33Z, compliant with the date-time format.
+"""
+scalar DateTime
+
+type Location {
+  id: Int!
+  createdAt: DateTime!
+  updatedAt: DateTime!
+  deletedAt: DateTime!
+  isDeleted: Boolean!
+  location: String!
+}
+
+type Event {
+  id: Int!
+  createdAt: DateTime!
+  updatedAt: DateTime!
+  deletedAt: DateTime
+  isDeleted: Boolean!
+  startDate: DateTime!
+  expireDate: DateTime!
+  name: String!
+  description: String!
+  location: Location!
+  user: User!
+}
+
+type Query {
+  getUser(id: Int!): User!
+  getUsers(getUsersInput: GetUsersInput!): [User!]!
+  getEvents(filterEventInput: FilterEventsInput!): [Event!]!
+  getLocations(getLocationInput: GetLocationInput!): [Location!]!
+  getLocation(id: Int!): Location!
+}
+
+input GetUsersInput {
+  skip: Int!
+  limit: Int!
+}
+
+input FilterEventsInput {
+  createDate: DateTime
+  expireDate: DateTime
+  skip: Int
+  take: Int
+}
+
+input GetLocationInput {
+  skip: Int
+  limit: Int
+}
+
+type Mutation {
+  createUser(createUserInput: UserInput!): User!
+  createEvent(createEventInput: CreateEventInput!): Event!
+  createLocation(createLocationInput: CreateLocationInput!): Location!
+}
+
+input UserInput {
+  username: String!
+}
+
+input CreateEventInput {
+  locationId: Int!
+  userId: Int!
+  createDate: DateTime!
+  expireDate: DateTime!
+  name: String!
+  description: String!
+}
+
+input CreateLocationInput {
+  location: String!
+}
