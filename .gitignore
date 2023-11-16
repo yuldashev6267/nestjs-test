@@ -36,6 +36,3 @@ lerna-debug.log*
 
 # env file ignore
 /.env
-
-# ignore prettier
-/.prettierrc
