@@ -40,14 +40,15 @@ type Event {
 type Query {
   getUser(id: Int!): User!
   getUsers(getUsersInput: GetUsersInput!): [User!]!
+  getUsersCount(getUsersInput: GetUsersInput!): Int!
   getEvents(filterEventInput: FilterEventsInput!): [Event!]!
   getLocations(getLocationInput: GetLocationInput!): [Location!]!
   getLocation(id: Int!): Location!
 }
 
 input GetUsersInput {
-  skip: Int!
-  limit: Int!
+  skip: Int
+  take: Int
 }
 
 input FilterEventsInput {

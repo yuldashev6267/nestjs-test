@@ -1,4 +1,5 @@
 import { Field, InputType, Int } from '@nestjs/graphql';
+import { GetUsersModels } from '../models/users.models';
 
 @InputType()
 export class UserInput {
@@ -17,9 +18,17 @@ export class UpdateUserInput {
 
 @InputType()
 export class GetUsersInput {
-  @Field((type) => Int)
+  @Field((type) => Int, { nullable: true })
   skip: number | null;
 
-  @Field((type) => Int)
-  limit: number | null;
+  @Field((type) => Int, { nullable: true })
+  take: number | null;
+
+  static convertToModel(getUsersInput: GetUsersInput): GetUsersModels {
+    const model = new GetUsersModels();
+    model.skip = getUsersInput.skip;
+    model.take = getUsersInput.take;
+
+    return model;
+  }
 }

@@ -3,6 +3,7 @@ import { Repository, SelectQueryBuilder } from 'typeorm';
 import { User } from './users.entity';
 import { GetUsersInput, UpdateUserInput, UserInput } from './dto/user.input';
 import { Injectable, NotFoundException } from '@nestjs/common';
+import { GetUsersModels } from './models/users.models';
 
 @Injectable()
 export class UserService {
@@ -33,9 +34,9 @@ export class UserService {
     }
   }
 
-  async getAll(getUsersInput: GetUsersInput): Promise<User[]> {
+  async getAll(getUserModel: GetUsersModels): Promise<User[]> {
     try {
-      const builder = this.getUserBuilder(getUsersInput);
+      const builder = this.getUserBuilder(getUserModel);
       return await builder.getMany();
     } catch (error) {
       throw error;
@@ -75,8 +76,8 @@ export class UserService {
         builder.skip(getUsersInput.skip);
       }
 
-      if (getUsersInput.limit !== null) {
-        builder.limit(getUsersInput.limit);
+      if (getUsersInput.take !== null) {
+        builder.take(getUsersInput.take);
       }
 
       return builder;

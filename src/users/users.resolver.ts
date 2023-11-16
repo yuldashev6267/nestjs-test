@@ -34,9 +34,21 @@ export class UsersResolver {
     @Args('getUsersInput') getUsersInput: GetUsersInput,
   ): Promise<User[]> {
     try {
-      return await this.userService.getAll(getUsersInput);
+      const model = GetUsersInput.convertToModel(getUsersInput);
+      return await this.userService.getAll(model);
     } catch (error) {
       throw Error(error.message);
+    }
+  }
+
+  @Query((returns) => Int)
+  async getUsersCount(
+    @Args('getUsersInput') getUsersInput: GetUsersInput,
+  ): Promise<number> {
+    try {
+      return await this.userService.getCount(getUsersInput);
+    } catch (error) {
+      throw new Error(error.message);
     }
   }
 }

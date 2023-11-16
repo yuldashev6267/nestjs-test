@@ -20,7 +20,9 @@ export class LocationsContract {
     contract.id = locationsEntity.id;
     contract.createdAt = locationsEntity.createdAt.toString();
     contract.updatedAt = locationsEntity.updatedAt.toString();
-    contract.deletedAt = locationsEntity.deletedAt.toString();
+    contract.deletedAt = locationsEntity.deletedAt
+      ? locationsEntity.deletedAt.toString()
+      : null;
     contract.isDeleted = locationsEntity.isDeleted;
     contract.location = locationsEntity.location;
     return contract;

@@ -6,7 +6,6 @@ import { Repository } from 'typeorm';
 import { CreateEventInput, FilterEventsInput } from './dto/event.input';
 import { UserService } from '../users/users.service';
 import { LocationsService } from '../locations/locations.service';
-import { filter } from 'rxjs';
 
 @Injectable()
 export class EventService {
@@ -61,7 +60,15 @@ export class EventService {
 
   async getAll(filterEventInput: FilterEventsInput): Promise<Event[]> {
     try {
-      const builder = this.eventRepository.createQueryBuilder();
+      const builder = this.eventRepository
+        .createQueryBuilder('event')
+        .innerJoinAndMapOne('event.user', 'user', 'u', 'event.userId = u.id')
+        .innerJoinAndMapOne(
+          'event.location',
+          'location',
+          'l',
+          'event.locationId=l.id',
+        );
 
       if (filterEventInput.skip !== null) {
         builder.skip(filterEventInput.skip);
@@ -71,13 +78,19 @@ export class EventService {
         builder.take(filterEventInput.take);
       }
 
+      console.log(await builder.getMany());
       return await builder.getMany();
     } catch (error) {
       throw error;
     }
   }
 
-  getOne(id: number) {
-    return this.eventRepository.findOneByOrFail({ id: id });
+  async getOne(id: number) {
+    const event = await this.eventRepository.findOne({
+      where: { id: id },
+      relations: ['user', 'location'],
+    });
+    console.log(event);
+    return event;
   }
 }

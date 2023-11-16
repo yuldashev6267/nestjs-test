@@ -4,7 +4,7 @@ import { Event } from './events.entity';
 import { LocationsContract } from '../locations/locations.contract';
 import { UsersContract } from '../users/users.contract';
 
-class EventsContract {
+export class EventsContract {
   id: number;
 
   createdAt: string;
@@ -26,11 +26,16 @@ class EventsContract {
   location: LocationsContract;
 
   user: UsersContract;
+
   static createContractFromEntity(eventEntity: Event): EventsContract {
     const contract = new EventsContract();
     contract.id = eventEntity.id;
     contract.createdAt = eventEntity.createdAt.toString();
     contract.updatedAt = eventEntity.updatedAt.toString();
+    contract.deletedAt = eventEntity.deletedAt
+      ? eventEntity.deletedAt.toString()
+      : null;
+    contract.isDeleted = eventEntity.isDeleted;
     contract.startDate = eventEntity.startDate.toString();
     contract.expireDate = eventEntity.expireDate.toString();
     contract.name = eventEntity.name;

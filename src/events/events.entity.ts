@@ -10,7 +10,6 @@ import {
 } from 'typeorm';
 import { Field, Int, ObjectType } from '@nestjs/graphql';
 import { Location } from '../locations/location.entity';
-import { type } from 'os';
 import { User } from '../users/users.entity';
 
 @Entity()
